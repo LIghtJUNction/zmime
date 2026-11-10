@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - zmime-0.1.0-source.zip
+      - .github/workflows/bootstrap.yml
 
 permissions:
   contents: read
@@ -71,6 +72,7 @@ jobs:
           test -s comparison/Cargo.toml
           test -s verification/zmime-history.bundle
           git add -A
+          git diff --cached --check
           git diff --cached --quiet && exit 0
 
           git config user.name "github-actions[bot]"
