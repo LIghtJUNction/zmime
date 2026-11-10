@@ -1,0 +1,58 @@
+name: Benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: Native architecture
+        type: choice
+        options: [ubuntu-latest, ubuntu-24.04-arm]
+        default: ubuntu-latest
+        required: true
+      implementation:
+        description: Scanner and codec implementation
+        type: choice
+        options: [simd, portable]
+        default: simd
+        required: true
+      samples:
+        description: Paired timing samples per workload
+        type: choice
+        options: ['5', '9', '15']
+        default: '9'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    name: Equivalent work / ${{ inputs.runner }} / ${{ inputs.implementation }}
+    runs-on: ${{ inputs.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Rust
+        run: rustup toolchain install stable --profile minimal
+      - name: Validate outputs and record paired measurements
+        env:
+          BENCH_IMPLEMENTATION: ${{ inputs.implementation }}
+          BENCH_SAMPLES: ${{ inputs.samples }}
+        run: |
+          args=(--output benchmark-results --samples "$BENCH_SAMPLES" --target-ms 20)
+          if [ "$BENCH_IMPLEMENTATION" = portable ]; then
+            args+=(--portable)
+          fi
+          python comparison/run.py "${args[@]}"
+      - name: Save measurements and machine context
+        uses: actions/upload-artifact@v4
+        with:
+          name: zmime-${{ inputs.runner }}-${{ inputs.implementation }}-${{ github.sha }}
+          path: benchmark-results/
+          if-no-files-found: error
+          retention-days: 30
