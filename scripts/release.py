@@ -92,7 +92,8 @@ def output(**values):
 
 def trusted_context():
     branch = os.environ["RELEASE_BRANCH"]
-    require(os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch", "Only manual default-branch releases are accepted")
+    require(os.environ.get("GITHUB_EVENT_NAME") in {"workflow_dispatch", "push"},
+            "Only default-branch pushes or manual releases are accepted")
     require(os.environ.get("GITHUB_REF") == "refs/heads/" + branch, "Release must originate on the default branch")
     run("git", "check-ref-format", "--branch", branch)
     require(not git("status", "--porcelain"), "The release checkout must be clean")
