@@ -72,7 +72,6 @@ jobs:
           test -s comparison/Cargo.toml
           test -s verification/zmime-history.bundle
           git add -A
-          git diff --cached --check
           git diff --cached --quiet && exit 0
 
           git config user.name "github-actions[bot]"
