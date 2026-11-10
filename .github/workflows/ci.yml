@@ -1,0 +1,194 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: Exact commit to validate for a release
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  test:
+    name: Test / ${{ matrix.os }} / ${{ matrix.rust }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest, ubuntu-24.04-arm]
+        rust: [stable]
+        include:
+          - os: ubuntu-latest
+            rust: 1.74.0
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+      - name: Install Rust
+        run: rustup toolchain install ${{ matrix.rust }} --profile minimal
+      - name: Test native implementation
+        run: cargo +${{ matrix.rust }} test --locked --all-targets
+      - name: Test portable implementation
+        run: cargo +${{ matrix.rust }} test --locked --all-targets --no-default-features
+      - name: Test public examples
+        run: cargo +${{ matrix.rust }} test --locked --doc
+
+  quality:
+    name: Format, lint, docs, package
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Rust tools
+        run: rustup toolchain install stable --profile minimal --component rustfmt,clippy
+      - run: cargo +stable fmt --all -- --check
+      - run: cargo +stable clippy --locked --all-targets --all-features -- -D warnings
+      - run: cargo +stable clippy --locked --all-targets --no-default-features -- -D warnings
+      - name: Documentation
+        run: cargo +stable doc --locked --no-deps --all-features
+        env:
+          RUSTDOCFLAGS: -D warnings
+      - name: Check dependency and package boundaries
+        run: python scripts/check_contract.py
+      - name: Test release state transitions
+        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Verify benchmark sample pairing and ratio eligibility
+        run: python -m unittest discover -s comparison -p 'test_*.py' -v
+      - run: cargo +stable package --locked
+      - run: cargo +stable publish --locked --dry-run
+
+  cross:
+    name: Cross / ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [aarch64-unknown-linux-gnu, wasm32-unknown-unknown, thumbv7em-none-eabi]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+      - name: Install target
+        run: rustup toolchain install stable --profile minimal --target ${{ matrix.target }}
+      - run: cargo +stable check --locked --lib --all-features --target ${{ matrix.target }}
+      - run: cargo +stable check --locked --lib --no-default-features --target ${{ matrix.target }}
+
+  miri:
+    name: Miri
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+      - run: rustup toolchain install nightly --profile minimal --component miri
+      - run: cargo +nightly miri setup
+      - run: cargo +nightly miri test --locked --lib --tests --no-default-features
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
+
+  differential:
+    name: Differential / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+      - run: rustup toolchain install stable --profile minimal
+      - run: cargo +stable test --locked --manifest-path comparison/Cargo.toml --all-targets
+      - run: cargo +stable test --locked --manifest-path comparison/Cargo.toml --all-targets --no-default-features
+
+  miri-simd:
+    name: Miri SIMD / ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+      - run: rustup toolchain install nightly --profile minimal --component miri
+      - run: cargo +nightly miri setup --target ${{ matrix.target }}
+      - run: cargo +nightly miri test --locked --lib --target ${{ matrix.target }} scan::tests
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
+      - run: cargo +nightly miri test --locked --test decode --target ${{ matrix.target }} quoted_printable_literal_scan_matches_every_byte
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
+      - name: Miri NEON transfer decoding
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: cargo +nightly miri test --locked --test decode --target ${{ matrix.target }} base64_
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
+      - name: Miri NEON text validation across decoded vector blocks
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: cargo +nightly miri test --locked --test decode --target ${{ matrix.target }} body_text_
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
+
+  x86-codecs:
+    name: x86 codecs / ${{ matrix.features }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        features: ['+ssse3,-avx2', '+avx2']
+    env:
+      RUSTFLAGS: -C target-feature=${{ matrix.features }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+      - run: rustup toolchain install stable --profile minimal
+      - name: Test CPU-specific decoding
+        run: cargo +stable test --locked --all-targets
+      - name: Compare CPU-specific decoding with mail-parser
+        run: cargo +stable test --locked --manifest-path comparison/Cargo.toml --all-targets
+      - run: rustup toolchain install nightly --profile minimal --component miri
+      - run: cargo +nightly miri setup
+      - name: Miri CPU-specific Base64 decoding
+        run: cargo +nightly miri test --locked --test decode base64_
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
+      - name: Miri CPU-specific text validation
+        run: cargo +nightly miri test --locked --test decode body_text_
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
+      - name: Miri AVX2 scanners
+        if: matrix.features == '+avx2'
+        run: cargo +nightly miri test --locked --lib scan::tests
+        env:
+          MIRIFLAGS: -Zmiri-strict-provenance
