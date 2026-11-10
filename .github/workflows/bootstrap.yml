@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - zmime-0.1.0-source.zip
-      - .github/workflows/bootstrap.yml
 
 permissions:
   contents: read
