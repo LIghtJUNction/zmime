@@ -1,0 +1,58 @@
+name: Restore original zmime history
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - zmime-0.1.0-source.zip
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zmime-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  restore:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Verify archive and restore complete Git history
+        env:
+          EXPECTED_ARCHIVE_SHA256: be85aaf9b0ec59b6c40614cd4a81e33f19766e5e4c3ff1818f4343b8287d515e
+          EXPECTED_SOURCE_COMMIT: 6f1137aa5eeee1894137a3fdf7541b9bddcc4e75
+        run: |
+          set -euo pipefail
+
+          archive=zmime-0.1.0-source.zip
+          printf '%s  %s\n' "$EXPECTED_ARCHIVE_SHA256" "$archive" | sha256sum --check --strict
+
+          unpack="$RUNNER_TEMP/zmime-source"
+          mkdir -p "$unpack"
+          unzip -q "$archive" -d "$unpack"
+
+          bundle="$unpack/zmime/zmime-history.bundle"
+          test -s "$bundle"
+          git bundle verify "$bundle"
+          git fetch "$bundle" refs/heads/main:refs/remotes/zmime-restore/main
+
+          source_sha="$(git rev-parse refs/remotes/zmime-restore/main)"
+          test "$source_sha" = "$EXPECTED_SOURCE_COMMIT"
+          git cat-file -e "$source_sha:Cargo.toml"
+          git show "$source_sha:Cargo.toml" | grep -Eq '^name = "zmime"$'
+          git ls-tree -r --name-only "$source_sha" | grep -Fxq '.github/workflows/ci.yml'
+
+          # Only replace the bootstrap commit we just checked out; never overwrite
+          # a concurrent change made after this workflow started.
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git push --force-with-lease="refs/heads/main:$GITHUB_SHA" origin "$source_sha:refs/heads/main"
