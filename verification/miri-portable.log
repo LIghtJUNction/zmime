@@ -1,0 +1,102 @@
+   Compiling zmime v0.1.0 (/workspace/scratch/7d10ec8551a2/zmime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.40s
+     Running unittests src/lib.rs (/workspace/scratch/7d10ec8551a2/target-miri-portable/miri/x86_64-unknown-linux-gnu/debug/build/zmime/0e731ee03ab02f80/out/zmime-0e731ee03ab02f80)
+
+running 3 tests
+test scan::tests::every_alignment_length_and_byte_matches_reference ... ok
+test scan::tests::header_controls_match_reference ... ok
+test scan::tests::long_blocks_and_vector_tails_do_not_overread ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 69.98s
+
+     Running tests/adversarial.rs (/workspace/scratch/7d10ec8551a2/target-miri-portable/miri/x86_64-unknown-linux-gnu/debug/build/zmime/9fbf808fbb289ebc/out/adversarial-9fbf808fbb289ebc)
+
+running 16 tests
+test ancestor_delimiter_must_not_be_swallowed_as_a_header ... ok
+test boundary_grammar_and_length_are_enforced ... ok
+test boundary_prefixes_do_not_confuse_nested_containers ... ok
+test child_header_diagnostics_use_message_offsets ... ok
+test closing_delimiter_can_end_at_eof_and_introducing_eol_is_removed_once ... ok
+test deterministic_mutations_of_nested_mail_do_not_panic ... ok
+test encoded_charset_parameters_must_not_fall_back_to_ascii ... ok
+test encoded_containers_require_an_explicit_decode_step ... ok
+test every_nested_truncation_is_bounded ... ok
+test fake_boundary_lines_remain_part_of_the_body ... ok
+test multipart_digest_children_default_to_embedded_messages ... ok
+test nested_opening_and_ancestor_closing_delimiters_cannot_be_identical ... ok
+test outer_close_before_inner_close_is_an_error ... ok
+test structured_header_diagnostics_use_the_public_input_offset ... ok
+test tree_depth_and_workspace_budgets_stop_expansion ... ok
+test unsupported_charsets_and_broken_attachments_remain_lazy ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.73s
+
+     Running tests/decode.rs (/workspace/scratch/7d10ec8551a2/target-miri-portable/miri/x86_64-unknown-linux-gnu/debug/build/zmime/c3c460bbe2c27089/out/decode-c3c460bbe2c27089)
+
+running 27 tests
+test arbitrary_and_truncated_inputs_remain_bounded ... ok
+test base64_all_byte_values_and_short_lengths ... ok
+test base64_checks_all_noncanonical_tail_bits ... ok
+test base64_mime_whitespace_and_line_lengths ... ok
+test base64_rejects_invalid_padding_and_alphabet ... ok
+test base64_vector_blocks_respect_exact_slices_and_alignment ... ok
+test base64_vector_validation_checks_every_lane_and_byte ... ok
+test body_text_latin1_conversion_and_exact_capacity ... ok
+test body_text_rejects_invalid_characters_even_when_output_is_small ... ok
+test body_text_utf8_crosses_every_decoder_block_boundary ... ok
+test body_text_utf8_validator_agrees_with_core ... ok
+test body_text_vector_prefix_validates_bytes_before_capacity_errors ... ok
+test deterministic_codec_round_trips ... ok
+test output_capacity_is_exact_and_cannot_overwrite ... ok
+test parallel_decoding_keeps_caller_data_independent ... ok
+test quoted_printable_all_bytes_and_invalid_input ... ok
+test quoted_printable_dense_runs_keep_exact_error_offsets ... ok
+test quoted_printable_dense_runs_preserve_boundaries_and_exact_capacity ... ok
+test quoted_printable_literal_scan_matches_every_byte ... ok
+test quoted_printable_trailing_whitespace ... ok
+test rfc2045_quoted_printable ... ok
+test rfc2047_adjacent_words_and_folding ... ok
+test rfc2047_q_and_b_words ... ok
+test rfc2047_rejects_malformed_words ... ok
+test rfc2047_rejects_unknown_charsets_and_invalid_utf8 ... ok
+test rfc4648_base64_vectors ... ok
+test transfer_encoding_recognition_and_binary ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 143.86s
+
+     Running tests/headers.rs (/workspace/scratch/7d10ec8551a2/target-miri-portable/miri/x86_64-unknown-linux-gnu/debug/build/zmime/e8e6ce8343afc7f6/out/headers-e8e6ce8343afc7f6)
+
+running 8 tests
+test duplicate_fields_remain_ordered_and_borrowed ... ok
+test forbidden_header_controls_and_orphan_continuations_fail ... ok
+test header_name_uses_printable_ascii_except_colon ... ok
+test random_header_inputs_terminate_and_keep_slices_inside_the_input ... ok
+test resource_limits_are_checked_at_their_edges ... ok
+test rfc5322_folding_preserves_raw_bytes_and_whitespace ... ok
+test truncation_needs_a_separator_but_never_parses_the_body ... ok
+test unfolding_capacity_failure_is_transactional ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.42s
+
+     Running tests/mime.rs (/workspace/scratch/7d10ec8551a2/target-miri-portable/miri/x86_64-unknown-linux-gnu/debug/build/zmime/1b1816a026a35f09/out/mime-1b1816a026a35f09)
+
+running 9 tests
+test comment_depth_is_bounded_without_recursion ... ok
+test content_type_understands_comments_folds_and_quoted_pairs ... ok
+test defaults_follow_mime_and_multipart_digest_rules ... ok
+test dispositions_keep_parameter_order_case_and_duplicates ... ok
+test empty_quoted_values_and_exact_output_capacities ... ok
+test invalid_structured_field_syntax_is_rejected ... ok
+test random_and_truncated_values_terminate_and_preserve_valid_parameters ... ok
+test rfc2231_extended_parameters_are_preserved_but_explicitly_unsupported ... ok
+test structured_error_offsets_are_relative_to_the_complete_input ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.56s
+
+     Running tests/zero_alloc.rs (/workspace/scratch/7d10ec8551a2/target-miri-portable/miri/x86_64-unknown-linux-gnu/debug/build/zmime/c9e7078ca00b7ede/out/zero_alloc-c9e7078ca00b7ede)
+
+running 1 test
+test parsing_unfolding_decoding_and_text_conversion_allocate_nothing ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s
+

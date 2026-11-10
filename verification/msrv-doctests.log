@@ -1,0 +1,9 @@
+    Finished test [unoptimized + debuginfo] target(s) in 0.00s
+   Doc-tests zmime
+
+running 2 tests
+test src/lib.rs - (line 21) ... ok
+test src/lib.rs - (line 54) ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+

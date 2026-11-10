@@ -1,0 +1,8 @@
+    Updating crates.io index
+   Packaging zmime v0.1.0 (/workspace/scratch/7d10ec8551a2/zmime)
+    Packaged 23 files, 197.1KiB (47.9KiB compressed)
+   Verifying zmime v0.1.0 (/workspace/scratch/7d10ec8551a2/zmime)
+   Compiling zmime v0.1.0 (/workspace/scratch/7d10ec8551a2/target-root/package/zmime-0.1.0)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.20s
+   Uploading zmime v0.1.0 (/workspace/scratch/7d10ec8551a2/zmime)
+warning: aborting upload due to dry run

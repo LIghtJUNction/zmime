@@ -1,0 +1,178 @@
+{
+  "protocol_version": 2,
+  "started_utc": "2026-11-10T08:56:55.843406+00:00",
+  "system": "Linux",
+  "kernel": "6.18.57",
+  "architecture": "x86_64",
+  "cpu": {
+    "vendor_id": "GenuineIntel",
+    "cpu family": "6",
+    "model": "207",
+    "model name": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "stepping": "2",
+    "flags": "fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 arat avx512vbmi umip waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid cldemote movdiri movdir64b fsrm serialize tsxldtrk avx512_fp16 arch_capabilities"
+  },
+  "allowed_cpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "selected_cpu": 8,
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.1",
+  "cargo": "cargo 1.99.1 (5f94df478 2026-08-27)",
+  "git_commit": "53ef4d5f42e5ab3017a9541c38872d02f26ad87f",
+  "tracked_modifications": "",
+  "source_sha256": {
+    "Cargo.lock": "924d37b63c4a1ab54a74177b4ce3622986f230950c0d69e7d156b0b65bfa2101",
+    "Cargo.toml": "85260f4bea525824628c1d5b1d6381d2048c7399a43ecba478a7b985fc1b1c2a",
+    "comparison/Cargo.lock": "1347a6ada06adc47ed7b96823530178c001df6413f7dd5d261280aa2d1690fdb",
+    "comparison/Cargo.toml": "b1006db884346adc9402c71f079be0a75cfcda2f463011f9503f8b2b3ede7255",
+    "comparison/run.py": "ccd72a2942313a3ba6e6ee310b2b18e6cb747e67200c1054938d9237ec4dd17e",
+    "comparison/src/bin/cold.rs": "3e8a98b3f3ff29d5566aec5bcdc6f432c12501c07ca6455735523ac4c421303b",
+    "comparison/src/consume.rs": "463c6d425f418993ac744ee7dcc8e65decbe8c6669db1c2e395782808df79ad6",
+    "comparison/src/corpus.rs": "8063b041e47469b86ae998e3ffc3426f4548fd3ae6a226b5a74c74723b345aee",
+    "comparison/src/lib.rs": "39c0ce1723cf4e3b5f2d59b7de4d5ec25b84ae3e58b73ee7158a2faaa35971b7",
+    "comparison/src/main.rs": "ebdebb46294d1ba0c50504e7eb02d17a546a53654a2f2b591fcf465b6d6aa1e1",
+    "comparison/summarize.py": "e61af8118cc059dc96dd085152e8a66832872f4d45ace92cde119c6d3786ba3a",
+    "comparison/tests/differential.rs": "63143751f4ad630ff3660e103582e7b40940e7f5b97ce7d1aca0260cebfda184",
+    "src/cpu.rs": "3cfa2e5207b3c019d03fd45b215d5cb665b82a4656df1e1ddcca4411fe1d45ff",
+    "src/decode.rs": "2030eee82e8fa7ae2875a0c9553716a8ab4e170f59c7a1a3b51cf51ba5ab418e",
+    "src/decode_simd.rs": "f210003890a1b745b2d460f07be06e6ba6fa8c0190e05332e671f97e8c11ba31",
+    "src/error.rs": "366554d7a53b0cb9cc4be4f3de52c6be096f56357c5a2e98c3db1a5f87b0f680",
+    "src/headers.rs": "ecff14caef75a382a2f71e24551db825d4dc5d1b4b98259a42b69271dc80b8b1",
+    "src/lib.rs": "b2b0d02abecfa48072f1cfea83afd1c29154d62efcbfe28341be74df7a78e37f",
+    "src/message.rs": "17188c3acd949446ab9e28b86cb613c98b4be7ebaa6e3e82de01a4d6a5976d40",
+    "src/mime.rs": "145559ce218e4afe0d731fb05f652bb36fdaf499ea420be84a8fafae592b8a4e",
+    "src/scan.rs": "f1166b70844999dbcfbdd84d284b780ea7672dcad5767e6103eed59e21b47caf",
+    "tests/adversarial.rs": "d6fd1632cb0feea9aa8d43e96b08ad4a77c5874fab057cac97345d773b0d0c5f",
+    "tests/decode.rs": "45607106e745c6d1e998767675f859d7778af8e5e09f36001b6dc0a6ac89e3aa",
+    "tests/headers.rs": "20a8523f7ee93caa7df23c6bf7391d0de793a42c3600fac82fa23fad7979ef6c",
+    "tests/mime.rs": "fe60bfd9bb7e189b9332ea604d96549677ee6d298b45f59b993c7684cd9162c0",
+    "tests/zero_alloc.rs": "ae825ae07bfc5a9c3722ea93e36a380ae36a340a3a4cd1e6e5f2839755133496"
+  },
+  "rustflags": "",
+  "features": "default simd",
+  "mail_parser": "1.0.1, default-features=false, transitive versions in Cargo.lock",
+  "profile": "release; lto=thin; codegen-units=1; default target CPU",
+  "samples": 9,
+  "target_ms": 20.0,
+  "filter": "",
+  "warmup_iterations_per_pair": 32,
+  "sample_order": "alternating zmime/reference then reference/zmime",
+  "timing_scope": "parse+consume every raw header/body view and supported MIME metadata including all unescaped parameter values; caller storage prepared outside timing; no transfer/charset decode during parse",
+  "binary_sha256": {
+    "compare": "0177b6b374d7f8055979a9187f9a876541b4ab2f84ed24f8a0daa19eb55da1ae",
+    "cold": "6f056d32555251512613f4bab841716ce10799355be701f062b8556fc3c439ce"
+  },
+  "fixture_sha256": {
+    "empty.eml": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "invalid_base64.eml": {
+      "bytes": 41,
+      "sha256": "73456f61bf32f7b48f9d9463e3085551dc8d0e4d2b406311668742e561cf9a27"
+    },
+    "invalid_qp.eml": {
+      "bytes": 50,
+      "sha256": "768b357f054a0c2d2a85a1584194908e5fe147dcb3c0352a5cac762191b2e8fa"
+    },
+    "large_attachment.eml": {
+      "bytes": 1435212,
+      "sha256": "86301c64aebf9c213e3976e0a08aef0b7bcb77f65e7d4908a7ef15b65b9bc73c"
+    },
+    "large_attachment_lf.eml": {
+      "bytes": 1416801,
+      "sha256": "350bb040b6c857156711255c6832a148e6a7012bb0b8b16b2fbb70f9c88e28a2"
+    },
+    "long_headers.eml": {
+      "bytes": 70348,
+      "sha256": "71086fd8c38159191be20485c779b46610ce47b87aa1586109e5aa75e18d69e8"
+    },
+    "long_headers_lf.eml": {
+      "bytes": 70244,
+      "sha256": "23d8ba6987caf7059fa0c9ee8479db8f5d63cac490be4f5062f68f30ce482cd3"
+    },
+    "many_attachments.eml": {
+      "bytes": 54644,
+      "sha256": "aa749f1e3a50c8cfd9dbe80859c220a9c22d6ad753e934a238e22eca8d54b62d"
+    },
+    "many_attachments_lf.eml": {
+      "bytes": 53487,
+      "sha256": "42f605bc0864fbc251b3ffa4dc9bed203f822ec38ee36a12e54ea2fb97f7368b"
+    },
+    "missing_colon.eml": {
+      "bytes": 22,
+      "sha256": "e3a91e831920ad7712cedec156a239ea1cd5b2a77c16817b154cb8da0e85bc34"
+    },
+    "nested_message.eml": {
+      "bytes": 221,
+      "sha256": "9c1faed0068e3c26307b90c9b3a368481643df22e881e0271c3d45ef61d926d4"
+    },
+    "nested_message_lf.eml": {
+      "bytes": 207,
+      "sha256": "36e9a9b3941fe3ebab8e4ac7c72b115e3c2904969b444d964e6877ae0cc14744"
+    },
+    "nested_multipart.eml": {
+      "bytes": 1263,
+      "sha256": "bad6ebffcb404ee8fac474d39b35f3d04d83c7f30b4e44e83036fdeac9132ee4"
+    },
+    "nested_multipart_lf.eml": {
+      "bytes": 1172,
+      "sha256": "1c591864547d4343427ac74b664e8d2f7287693be359e616d2e2c7229c95a0b2"
+    },
+    "newsletter.eml": {
+      "bytes": 65903,
+      "sha256": "cc8a330ff11a06d90816f285cb6cc6492ffd90f243985420fe1e7c34f574f44d"
+    },
+    "newsletter_lf.eml": {
+      "bytes": 65013,
+      "sha256": "5545d98d11499b1a08f9be89e2c600118a8581f00c08783c69e949f0637542ab"
+    },
+    "no_separator.eml": {
+      "bytes": 18,
+      "sha256": "2255484b5927464470967f34156075ac6a8800a6ad783c64ba7a07ffd0b6184d"
+    },
+    "ordinary.eml": {
+      "bytes": 1402,
+      "sha256": "10d14d719122bce03d75f0aff715638a2c02e4aba94418db741846f994cbbc12"
+    },
+    "ordinary_lf.eml": {
+      "bytes": 1351,
+      "sha256": "153bb558a2f199dcadb06ac16c0bf1f5124b1e1c18228e3e876eafb87f6bc25c"
+    },
+    "orphan_fold.eml": {
+      "bytes": 15,
+      "sha256": "dd2542b510e0e20d31c40aec8f4c7c1d828b8347c60cc6507e2bebece1d6d2b4"
+    },
+    "tiny.eml": {
+      "bytes": 16,
+      "sha256": "aff6d819b3cc093a5d6af2dcc05809ae71cb00806a35ca85850735db24271a3a"
+    },
+    "tiny_lf.eml": {
+      "bytes": 14,
+      "sha256": "6d1dabf39a7c1f4de42dde2ca4d08ff3740f3570c2886a7005dae470250eba59"
+    },
+    "truncated_base64.eml": {
+      "bytes": 44,
+      "sha256": "772b9cdd79b21b3e483d930d33bf8c6e5d120aafcb88280bdb7b15e509080570"
+    },
+    "truncated_multipart.eml": {
+      "bytes": 82,
+      "sha256": "5b4de4872c930f2eb3fb2a943631d6b20558a240ad2538e9f8fab0725a7f824d"
+    },
+    "truncated_qp.eml": {
+      "bytes": 51,
+      "sha256": "1b0c46faacf1e5a4c9901bc30573b02eabcfd9a6ac58d171ce656d18da53df8c"
+    }
+  },
+  "finished_utc": "2026-11-10T08:57:27.260462+00:00",
+  "source_unchanged": true,
+  "binaries_unchanged": true
+}

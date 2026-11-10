@@ -1,0 +1,11 @@
+   Compiling zmime v0.1.0 (/workspace/scratch/7d10ec8551a2/zmime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (/workspace/scratch/7d10ec8551a2/target-miri-scan-aarch64/miri/aarch64-unknown-linux-gnu/debug/build/zmime/92bfc3a5c373cbed/out/zmime-92bfc3a5c373cbed)
+
+running 3 tests
+test scan::tests::every_alignment_length_and_byte_matches_reference ... ok
+test scan::tests::header_controls_match_reference ... ok
+test scan::tests::long_blocks_and_vector_tails_do_not_overread ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 68.85s
+

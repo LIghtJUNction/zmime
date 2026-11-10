@@ -1,0 +1,31 @@
+[package]
+name = "zmime-comparison"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.98"
+publish = false
+
+[workspace]
+
+[features]
+default = ["simd"]
+simd = ["zmime/simd"]
+
+[dependencies]
+zmime = { path = "..", default-features = false }
+mail-parser = { version = "=1.0.1", default-features = false }
+
+[[bin]]
+name = "compare"
+path = "src/main.rs"
+
+[[bin]]
+name = "cold"
+path = "src/bin/cold.rs"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+[profile.bench]
+debug = true

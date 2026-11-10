@@ -1,0 +1,11 @@
+zmime 0.1.0
+Source commit: 6f1137aa5eeee1894137a3fdf7541b9bddcc4e75
+Benchmark commit: 53ef4d5f42e5ab3017a9541c38872d02f26ad87f
+
+All tracked source, tests, workflows, locked comparison dependencies and raw measurements are included.
+Full Git history: git clone zmime-history.bundle restored-zmime
+Run: cargo test --locked
+Example: cargo run --example inspect
+Release: Actions / Release / Run workflow / bump=none|patch|minor|major
+
+GitHub push is blocked: the connected account cannot access LIghtJUNction/zmime (404), and local Git is unauthenticated. No production publish has been performed.
