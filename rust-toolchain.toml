@@ -2,3 +2,4 @@
 channel = "1.99.1"
 profile = "minimal"
 components = ["rustfmt", "clippy"]
+# Release trust-boundary regression test updated.
