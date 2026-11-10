@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  push:
+    branches: [main]
+    paths: [rust-toolchain.toml]
   workflow_dispatch:
     inputs:
       bump:
@@ -40,7 +43,7 @@ jobs:
         id: version
         run: python scripts/release.py prepare
         env:
-          RELEASE_BUMP: ${{ inputs.bump }}
+          RELEASE_BUMP: ${{ inputs.bump || 'none' }}
           RELEASE_BRANCH: ${{ github.event.repository.default_branch }}
 
   validate:
