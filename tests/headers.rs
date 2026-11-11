@@ -105,9 +105,11 @@ fn truncation_needs_a_separator_but_never_parses_the_body() {
         ));
     }
     for input in [b"".as_slice(), b"\n", b"\r\n"] {
-        assert!(HeaderBlock::parse(input, Limits::DEFAULT)
-            .unwrap()
-            .is_empty());
+        assert!(
+            HeaderBlock::parse(input, Limits::DEFAULT)
+                .unwrap()
+                .is_empty()
+        );
     }
     let block = HeaderBlock::parse(b"X: value\n\nnot a header\0\xff\r", Limits::DEFAULT).unwrap();
     assert_eq!(block.body(), b"not a header\0\xff\r");

@@ -1,10 +1,10 @@
 //! Iterative single-forward-scan MIME structure construction.
 use crate::{
-    decode::decode_text,
-    mime::{rebase, Cursor},
-    scan::find_byte,
     ContentDisposition, ContentType, DecodeError, Error, HeaderBlock, Limit, Limits,
     TransferEncoding, Unsupported,
+    decode::decode_text,
+    mime::{Cursor, rebase},
+    scan::find_byte,
 };
 
 /// One MIME entity. All content slices borrow the input; metadata lives in

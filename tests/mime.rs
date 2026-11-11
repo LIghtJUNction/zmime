@@ -19,10 +19,12 @@ fn content_type_understands_comments_folds_and_quoted_pairs() {
     assert_eq!(charset.name(), b"CHARSET");
     assert!(charset.value().eq_ignore_ascii_case(b"us-ascii").unwrap());
     assert!(!charset.value().eq_ignore_ascii_case(b"us").unwrap());
-    assert!(!charset
-        .value()
-        .eq_ignore_ascii_case(b"us-ascii-extra")
-        .unwrap());
+    assert!(
+        !charset
+            .value()
+            .eq_ignore_ascii_case(b"us-ascii-extra")
+            .unwrap()
+    );
     let name = content_type.parameter(b"NAME").unwrap().unwrap().value();
     assert!(name.is_quoted());
     assert_eq!(name.raw(), b"a\\\";b\\\\c\r\n d.txt");
@@ -51,9 +53,11 @@ fn dispositions_keep_parameter_order_case_and_duplicates() {
             .raw(),
         b"first.txt"
     );
-    assert!(!ContentDisposition::parse(b"inline (display)")
-        .unwrap()
-        .is_attachment());
+    assert!(
+        !ContentDisposition::parse(b"inline (display)")
+            .unwrap()
+            .is_attachment()
+    );
     let mut iter = disposition.parameters();
     for _ in 0..3 {
         assert!(iter.next().unwrap().is_ok());
@@ -188,9 +192,11 @@ fn structured_error_offsets_are_relative_to_the_complete_input() {
 fn defaults_follow_mime_and_multipart_digest_rules() {
     assert!(ContentType::TEXT_PLAIN.is(b"text", b"plain"));
     assert!(ContentType::MESSAGE_RFC822.is(b"message", b"rfc822"));
-    assert!(ContentType::parse(b"MULTIPART/alternative; boundary=x")
-        .unwrap()
-        .is_multipart());
+    assert!(
+        ContentType::parse(b"MULTIPART/alternative; boundary=x")
+            .unwrap()
+            .is_multipart()
+    );
 }
 
 #[test]

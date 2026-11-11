@@ -1,6 +1,6 @@
 use zmime::decode::{
-    decode_base64, decode_encoded_words, decode_quoted_printable, decode_text, decode_transfer,
-    DecodeError, TransferEncoding,
+    DecodeError, TransferEncoding, decode_base64, decode_encoded_words, decode_quoted_printable,
+    decode_text, decode_transfer,
 };
 
 fn decoded(

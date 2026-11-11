@@ -1,7 +1,7 @@
 //! RFC 5322 field framing with borrowed raw values and explicit unfolding.
 use crate::{
-    scan::{find_byte, find_header_control},
     Error, Limit, Limits,
+    scan::{find_byte, find_header_control},
 };
 
 /// A validated block of header fields and the remaining unparsed body.
@@ -84,7 +84,7 @@ impl<'a> HeaderBlock<'a> {
                             Limit::LineBytes
                         },
                         offset: search_len,
-                    })
+                    });
                 }
                 None => return Err(Error::MissingHeaderSeparator),
             };
@@ -92,12 +92,12 @@ impl<'a> HeaderBlock<'a> {
                 b'\n' => content_end,
                 b'\r' if input.get(content_end + 1) == Some(&b'\n') => content_end + 1,
                 b'\r' if content_end + 1 == input.len() => {
-                    return Err(Error::MissingHeaderSeparator)
+                    return Err(Error::MissingHeaderSeparator);
                 }
                 _ => {
                     return Err(Error::InvalidHeaderByte {
                         offset: content_end,
-                    })
+                    });
                 }
             };
             if content_end - pos > limits.max_line_len {

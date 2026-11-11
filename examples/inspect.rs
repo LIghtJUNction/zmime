@@ -1,6 +1,6 @@
 //! Run with `cargo run --example inspect`.
 //! The application uses std for printing; zmime itself only uses core.
-use zmime::{decode_encoded_words, Limits, Message, Part};
+use zmime::{Limits, Message, Part, decode_encoded_words};
 
 const MAIL: &[u8] = b"Subject: =?UTF-8?Q?Build_report?=\r\n\
 Content-Type: multipart/mixed; boundary=report\r\n\r\n\

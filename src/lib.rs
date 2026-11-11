@@ -17,8 +17,8 @@ mod mime;
 mod scan;
 
 pub use decode::{
-    decode_base64, decode_encoded_words, decode_quoted_printable, decode_text, decode_transfer,
-    DecodeError, TransferEncoding,
+    DecodeError, TransferEncoding, decode_base64, decode_encoded_words, decode_quoted_printable,
+    decode_text, decode_transfer,
 };
 pub use error::{Error, Limit, Limits, Unsupported};
 pub use headers::{Header, HeaderBlock, Headers};

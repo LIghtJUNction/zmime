@@ -198,7 +198,9 @@ fn closing_delimiter_can_end_at_eof_and_introducing_eol_is_removed_once() {
 #[test]
 fn boundary_grammar_and_length_are_enforced() {
     for boundary in ["a b", "a:b", "'()+_,-./:=?", &"a".repeat(70)] {
-        let input = format!("Content-Type: multipart/mixed; boundary=\"{boundary}\"\n\n--{boundary}\n\nbody\n--{boundary}--\n");
+        let input = format!(
+            "Content-Type: multipart/mixed; boundary=\"{boundary}\"\n\n--{boundary}\n\nbody\n--{boundary}--\n"
+        );
         let mut parts = [Part::EMPTY; 4];
         let message = Message::parse(input.as_bytes(), &mut parts, Limits::DEFAULT).unwrap();
         assert_eq!(message.parts()[1].raw_body(), b"body");
@@ -225,15 +227,17 @@ fn boundary_grammar_and_length_are_enforced() {
 fn tree_depth_and_workspace_budgets_stop_expansion() {
     let simple = b"\nbody";
     let mut one = [Part::EMPTY; 1];
-    assert!(Message::parse(
-        simple,
-        &mut one,
-        Limits {
-            max_depth: 0,
-            ..Limits::DEFAULT
-        }
-    )
-    .is_ok());
+    assert!(
+        Message::parse(
+            simple,
+            &mut one,
+            Limits {
+                max_depth: 0,
+                ..Limits::DEFAULT
+            }
+        )
+        .is_ok()
+    );
     let nested = b"Content-Type: message/rfc822\n\n\nbody";
     let mut parts = [Part::EMPTY; 8];
     assert!(matches!(
@@ -250,15 +254,17 @@ fn tree_depth_and_workspace_budgets_stop_expansion() {
             ..
         })
     ));
-    assert!(Message::parse(
-        nested,
-        &mut parts,
-        Limits {
-            max_depth: 1,
-            ..Limits::DEFAULT
-        }
-    )
-    .is_ok());
+    assert!(
+        Message::parse(
+            nested,
+            &mut parts,
+            Limits {
+                max_depth: 1,
+                ..Limits::DEFAULT
+            }
+        )
+        .is_ok()
+    );
     assert!(matches!(
         Message::parse(nested, &mut one, Limits::DEFAULT),
         Err(Error::WorkspaceTooSmall { needed: 2 })

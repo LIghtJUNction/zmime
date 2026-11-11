@@ -1,6 +1,6 @@
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
-use zmime::{decode_encoded_words, Limits, Message, Part};
+use zmime::{Limits, Message, Part, decode_encoded_words};
 
 struct Counting;
 static TRACK: AtomicBool = AtomicBool::new(false);
