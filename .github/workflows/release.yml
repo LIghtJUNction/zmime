@@ -43,7 +43,7 @@ jobs:
         id: version
         run: python scripts/release.py prepare
         env:
-          RELEASE_BUMP: ${{ inputs.bump || 'patch' }}
+          RELEASE_BUMP: ${{ inputs.bump || 'none' }}
           RELEASE_BRANCH: ${{ github.event.repository.default_branch }}
 
   validate:
