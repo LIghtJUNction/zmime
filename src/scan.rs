@@ -182,10 +182,10 @@ pub(crate) fn find_header_control(bytes: &[u8]) -> Option<usize> {
         let low = x.wrapping_sub(0x2020_2020_2020_2020) & !x;
         let y = x ^ 0x7f7f_7f7f_7f7f_7f7f;
         let del = y.wrapping_sub(0x0101_0101_0101_0101) & !y;
-        if (low | del) & 0x8080_8080_8080_8080 != 0 {
-            if let Some(n) = b.iter().position(|&v| is_control(v)) {
-                return Some(i + n);
-            }
+        if (low | del) & 0x8080_8080_8080_8080 != 0
+            && let Some(n) = b.iter().position(|&v| is_control(v))
+        {
+            return Some(i + n);
         }
         i += 8;
     }

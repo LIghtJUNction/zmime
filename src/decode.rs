@@ -144,10 +144,10 @@ fn decode_transfer_to(
         TransferEncoding::Base64 => decode_base64_to(input, output),
         TransferEncoding::QuotedPrintable => decode_quoted_printable_to(input, output),
         TransferEncoding::SevenBit => {
-            if !input.is_ascii() {
-                if let Some(offset) = input.iter().position(|b| !b.is_ascii()) {
-                    return Err(DecodeError::InvalidSevenBit { offset });
-                }
+            if !input.is_ascii()
+                && let Some(offset) = input.iter().position(|b| !b.is_ascii())
+            {
+                return Err(DecodeError::InvalidSevenBit { offset });
             }
             output.extend(input);
             Ok(())

@@ -508,14 +508,13 @@ fn append_part<'a>(
     // is being read (RFC 2046 §5.1.2). In particular, --a:b is otherwise a
     // syntactically valid field name/value and could swallow a truncated part.
     // Only scan the header region, never the remaining attachment body.
-    if let Some(container) = enclosing_multipart(parent, parts) {
-        if let Some(delimiter) =
+    if let Some(container) = enclosing_multipart(parent, parts)
+        && let Some(delimiter) =
             find_delimiter(&input[..start + part.body_start], start, container, parts)
-        {
-            return Err(Error::InvalidHeader {
-                offset: delimiter.start,
-            });
-        }
+    {
+        return Err(Error::InvalidHeader {
+            offset: delimiter.start,
+        });
     }
     part.parent = parent;
     part.depth = depth;
