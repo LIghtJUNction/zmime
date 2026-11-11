@@ -18,7 +18,7 @@ def main():
     package = packages[0]
     if package["dependencies"]:
         raise SystemExit("No dependencies are allowed, including dev/build/optional/target dependencies")
-    if package["rust_version"] != "1.74":
+    if package["rust_version"] != "1.99.1":
         raise SystemExit("Update the MSRV matrix and contract together with rust-version")
     if (root / "build.rs").exists() or any(
         "custom-build" in target["kind"] for target in package["targets"]

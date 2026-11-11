@@ -1,8 +1,8 @@
 [package]
 name = "zmime"
 version = "0.1.0"
-edition = "2021"
-rust-version = "1.74"
+edition = "2024"
+rust-version = "1.99.1"
 description = "Zero-dependency, zero-allocation, no_std MIME message parsing with lazy decoding"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/LIghtJUNction/zmime"
@@ -16,6 +16,7 @@ default = ["simd"]
 simd = []
 
 [workspace]
+resolver = "3"
 exclude = ["comparison"]
 
 [profile.release]

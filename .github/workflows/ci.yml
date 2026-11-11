@@ -29,7 +29,7 @@ jobs:
         rust: [stable]
         include:
           - os: ubuntu-latest
-            rust: 1.74.0
+            rust: 1.99.1
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
