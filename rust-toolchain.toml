@@ -4,3 +4,5 @@ profile = "minimal"
 components = ["rustfmt", "clippy"]
 # Release trust-boundary regression test updated.
 # Rust 2024 Edition migration release gate.
+
+# Publish validated Rust 2024 MIME crate version.
