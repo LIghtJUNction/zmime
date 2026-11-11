@@ -1,16 +1,21 @@
 use std::alloc::{GlobalAlloc, Layout, System};
-use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::cell::Cell;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use zmime::{Limits, Message, Part, decode_encoded_words};
 
 struct Counting;
-static TRACK: AtomicBool = AtomicBool::new(false);
+thread_local! {
+    // The allocator can serve unrelated test-runner threads on macOS.
+    // Count only allocations made by the thread running this test.
+    static TRACK: Cell<bool> = const { Cell::new(false) };
+}
 static ALLOCATIONS: AtomicUsize = AtomicUsize::new(0);
 
 // SAFETY: all allocation/deallocation requests are forwarded without changing
 // pointer, size, alignment, or ownership. Counters are synchronized atomics.
 unsafe impl GlobalAlloc for Counting {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        if TRACK.load(Ordering::Relaxed) {
+        if TRACK.try_with(Cell::get).unwrap_or(false) {
             ALLOCATIONS.fetch_add(1, Ordering::Relaxed);
         }
         // SAFETY: forward the caller's valid allocation layout unchanged.
@@ -35,7 +40,7 @@ fn parsing_unfolding_decoding_and_text_conversion_allocate_nothing() {
     let mut word = [0u8; 32];
     let mut field = [0u8; 32];
     ALLOCATIONS.store(0, Ordering::Relaxed);
-    TRACK.store(true, Ordering::Relaxed);
+    TRACK.with(|tracking| tracking.set(true));
     let message = Message::parse(input, &mut parts, Limits::DEFAULT).unwrap();
     let header_len = message
         .root()
@@ -52,7 +57,7 @@ fn parsing_unfolding_decoding_and_text_conversion_allocate_nothing() {
         .unwrap();
     let body = message.parts()[1].text(&mut text).unwrap();
     let word_len = decode_encoded_words(b"=?UTF-8?B?SGVsbG8=?=", &mut word).unwrap();
-    TRACK.store(false, Ordering::Relaxed);
+    TRACK.with(|tracking| tracking.set(false));
     assert_eq!(ALLOCATIONS.load(Ordering::Relaxed), 0);
     assert_eq!(&bytes[..count], &[0, 1, 2, 255]);
     assert_eq!(body, "Café");
