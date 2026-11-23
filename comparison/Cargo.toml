@@ -14,7 +14,7 @@ simd = ["zmime/simd"]
 
 [dependencies]
 zmime = { path = "..", default-features = false }
-mail-parser = { version = "=1.0.1", default-features = false }
+mail-parser = { version = "=1.0.2", default-features = false }
 
 [[bin]]
 name = "compare"

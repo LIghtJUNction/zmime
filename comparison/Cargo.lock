@@ -4,9 +4,9 @@ version = 4
 
 [[package]]
 name = "encodify"
-version = "1.0.2"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e95d6e27686e1d6991a3077f4dbec9d33d18903466d234165ad86cd08c3ebc79"
+checksum = "ab7f638cb35e10aa08efd439d11ddcbeef7d52dd987c4956a6ff2cc1061020f3"
 dependencies = [
  "memchr",
  "simdutf8",
@@ -25,9 +25,9 @@ dependencies = [
 
 [[package]]
 name = "mail-parser"
-version = "1.0.1"
+version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d4ea9311ef3ca6189aa85c5f984bd47b2f12079bcabae28917d900ab26c9ecc"
+checksum = "2e57f7caaeb0071026b4be388c81e9c253853d9ed072a3061d425ef1c1b1b569"
 dependencies = [
  "encodify",
  "hashify",
